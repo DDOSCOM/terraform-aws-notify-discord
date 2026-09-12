@@ -180,7 +180,7 @@ snapshots['test_event_get_discord_message_payload_snapshots event_guardduty_find
     }
 ]
 
-snapshots['test_event_get_discord_message_payload_snapshots event_guardduty_finfing_low.json'] = [
+snapshots['test_event_get_discord_message_payload_snapshots event_guardduty_finding_low.json'] = [
     {
         'avatar_url': 'https://i.imgur.com/eeYUFCO_d.webp',
         'content': 'New AWS Notification',
