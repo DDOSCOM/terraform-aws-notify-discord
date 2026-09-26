@@ -22,7 +22,7 @@ in your Discord space.
 
 ```hcl
 module "notify_discord" {
-  source = "github.com/MefistoBaal/terraform-aws-notify-discord"
+  source = "github.com/DDOSCOM/terraform-aws-notify-discord"
 
   sns_topic_name = "discord-topic"
 
@@ -37,17 +37,9 @@ module "notify_discord" {
 If you want to subscribe the AWS Lambda Function created by this module to an existing SNS topic you should
 specify `create_sns_topic = false` as an argument and specify the name of existing SNS topic name in `sns_topic_name`.
 
-## Examples
-
-- [notify-discord-simple](https://github.com/MefistoBaal/terraform-aws-notify-discord/tree/master/examples/notify-discord-simple)
-    - Creates SNS topic which sends messages to Discord space.
-- [cloudwatch-alerts-to-discord](https://github.com/MefistoBaal/terraform-aws-notify-discord/tree/master/examples/cloudwatch-alerts-to-discord)
-    - End to end example which shows how to send AWS Cloudwatch alerts to Discord space and use KMS to encrypt webhook
-      URL.
-
 ## Local Development and Testing
 
-See the [functions](https://github.com/MefistoBaal/terraform-aws-notify-discord/tree/master/functions) for further
+See the [functions](https://github.com/DDOSCOM/terraform-aws-notify-discord/tree/master/functions) for further
 details.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -109,7 +101,7 @@ details.
 | <a name="input_log_events"></a> [log\_events](#input\_log\_events)                                                                                             | Boolean flag to enabled/disable logging of incoming events                                                                                                          | `bool`         | `false`          |    no    |
 | <a name="input_recreate_missing_package"></a> [recreate\_missing\_package](#input\_recreate\_missing\_package)                                                 | Whether to recreate missing Lambda package if it is missing locally or not                                                                                          | `bool`         | `true`           |    no    |
 | <a name="input_reserved_concurrent_executions"></a> [reserved\_concurrent\_executions](#input\_reserved\_concurrent\_executions)                               | The amount of reserved concurrent executions for this lambda function. A value of 0 disables lambda from being triggered and -1 removes any concurrency limitations | `number`       | `-1`             |    no    |
-| <a name="input_discord_channel"></a> [discord\_channel](#input\_discord\_channel)                                                                                    | The name of the channel in discord for notifications                                                                                                                  | `string`       | n/a              |   yes    |
+| <a name="input_discord_avatar_url"></a> [discord\_avatar\_url](#input\_discord\_avatar\_url)                                                                         | The avatar that will appear on discord messages                                                                                                                       | `string`       | n/a              |   yes    |
 | <a name="input_discord_emoji"></a> [discord\_emoji](#input\_discord\_emoji)                                                                                          | A custom emoji that will appear on discord messages                                                                                                                   | `string`       | `":aws:"`        |    no    |
 | <a name="input_discord_username"></a> [discord\_username](#input\_discord\_username)                                                                                 | The username that will appear on discord messages                                                                                                                     | `string`       | n/a              |   yes    |
 | <a name="input_discord_webhook_url"></a> [discord\_webhook\_url](#input\_discord\_webhook\_url)                                                                      | The URL of discord webhook                                                                                                                                            | `string`       | n/a              |   yes    |
@@ -139,10 +131,10 @@ details.
 ## Authors
 
 Module is maintained by [Santiago Hurtado](https://github.com/MefistoBaal) with help
-from [these awesome contributors](https://github.com/MefistoBaal/terraform-aws-notify-discord/graphs/contributors)
+from [these awesome contributors](https://github.com/DDOSCOM/terraform-aws-notify-discord/graphs/contributors)
 .
 
 ## License
 
-Apache 2 Licensed. See [LICENSE](https://github.com/MefistoBaal/terraform-aws-notify-discord/tree/master/LICENSE) for
-full details.
+Licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). See
+LICENSE for full details.
