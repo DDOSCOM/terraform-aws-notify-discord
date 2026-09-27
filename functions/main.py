@@ -312,7 +312,7 @@ def send_discord_notification(payload: Dict[str, Any]) -> str:
         return json.dumps({"code": e.getcode(), "info": e.info().as_string()})
 
 
-def lambda_handler(event: Dict[str, Any], context: Dict[str, Any]) -> str:
+def lambda_handler(event: Dict[str, Any], context: Any) -> str:
     """
     Lambda function to parse notification events and forward to Discord
 
