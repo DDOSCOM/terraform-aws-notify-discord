@@ -54,12 +54,6 @@ variable "discord_avatar_url" {
   type        = string
 }
 
-variable "discord_emoji" {
-  description = "A custom emoji that will appear on discord messages"
-  type        = string
-  default     = ":aws:"
-}
-
 variable "kms_key_arn" {
   description = "ARN of the KMS key used for decrypting discord webhook url"
   type        = string
