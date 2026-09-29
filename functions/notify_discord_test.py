@@ -8,6 +8,7 @@
 """
 
 import ast
+import json
 import os
 
 import main
@@ -148,3 +149,19 @@ def test_get_service_url_exception():
     """
     with pytest.raises(KeyError):
         main.get_service_url(region="us-east-1", service="athena")
+
+
+def test_lambda_handler_empty_records(monkeypatch):
+    """
+    Should not raise when the event has no Records.
+
+    Regression test: lambda_handler referenced `response` outside the for-loop,
+    which raised NameError when event["Records"] was empty because the loop
+    body never executed and `response` was never assigned.
+    """
+    monkeypatch.setenv("DISCORD_AVATAR_URL", "https://i.imgur.com/eeYUFCO_d.webp")
+    monkeypatch.setenv("DISCORD_USERNAME", "main_test")
+
+    result = main.lambda_handler(event={"Records": []}, context={})
+
+    assert json.loads(result)["code"] == 200

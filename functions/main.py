@@ -324,6 +324,10 @@ def lambda_handler(event: Dict[str, Any], context: Dict[str, Any]) -> str:
     if os.environ.get("LOG_EVENTS", "False") == "True":
         logging.info(f"Event logging enabled: `{json.dumps(event)}`")
 
+    # Initialise the response so lambda_handler does not raise NameError when
+    # event["Records"] is empty (the for-loop body never runs in that case).
+    response = json.dumps({"code": 200, "info": ""})
+
     for record in event["Records"]:
         sns = record["Sns"]
         subject = sns["Subject"]
