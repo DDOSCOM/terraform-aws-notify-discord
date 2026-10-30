@@ -8,6 +8,8 @@
 """
 
 import ast
+import json
+import logging
 import os
 
 import main
@@ -148,3 +150,52 @@ def test_get_service_url_exception():
     """
     with pytest.raises(KeyError):
         main.get_service_url(region="us-east-1", service="athena")
+
+
+def test_lambda_handler_empty_records(monkeypatch, caplog):
+    """
+    Should return a "no records" result and warn, without raising.
+
+    Regression test: lambda_handler referenced `response` outside the for-loop,
+    which raised UnboundLocalError when event["Records"] was empty because the
+    loop body never executed and `response` was never assigned.
+    """
+    monkeypatch.setenv("DISCORD_AVATAR_URL", "https://i.imgur.com/eeYUFCO_d.webp")
+    monkeypatch.setenv("DISCORD_USERNAME", "main_test")
+
+    with caplog.at_level(logging.WARNING):
+        result = main.lambda_handler(event={"Records": []}, context={})
+
+    payload = json.loads(result)
+    assert payload["code"] == 200
+    assert payload["info"] == "No records to process"
+    assert "No SNS records" in caplog.text
+
+
+def test_lambda_handler_does_not_log_error_for_204(monkeypatch, caplog):
+    """
+    Should treat Discord's 204 No Content as a successful send.
+
+    A successful webhook execution returns 204 No Content; 200 with a body is
+    returned only when the webhook is executed with the `wait` parameter.
+    """
+    monkeypatch.setenv("DISCORD_AVATAR_URL", "https://i.imgur.com/eeYUFCO_d.webp")
+    monkeypatch.setenv("DISCORD_USERNAME", "main_test")
+    monkeypatch.setenv("DISCORD_EMOJI", ":aws:")
+    monkeypatch.setenv(
+        "DISCORD_WEBHOOK_URL", "https://discord.com/api/webhooks/HOOK_ID/HOOK_TOKEN"
+    )
+
+    def fake_send_discord_notification(payload):
+        return json.dumps({"code": 204, "info": "No Content"})
+
+    monkeypatch.setattr(main, "send_discord_notification", fake_send_discord_notification)
+
+    with open(os.path.join("./messages/text_message.json"), "r") as efile:
+        event = ast.literal_eval(efile.read())
+
+    with caplog.at_level(logging.DEBUG):
+        response = main.lambda_handler(event=event, context={})
+
+    assert json.loads(response)["code"] == 204
+    assert not [record for record in caplog.records if record.levelno >= logging.ERROR]

@@ -312,6 +312,11 @@ def send_discord_notification(payload: Dict[str, Any]) -> str:
         return json.dumps({"code": e.getcode(), "info": e.info().as_string()})
 
 
+# Discord returns 204 No Content on a successful webhook execution; 200 with a
+# body is returned only when the webhook is executed with the `wait` parameter.
+EXPECTED_RESPONSE_CODES = {200, 204}
+
+
 def lambda_handler(event: Dict[str, Any], context: Dict[str, Any]) -> str:
     """
     Lambda function to parse notification events and forward to Discord
@@ -324,6 +329,10 @@ def lambda_handler(event: Dict[str, Any], context: Dict[str, Any]) -> str:
     if os.environ.get("LOG_EVENTS", "False") == "True":
         logging.info(f"Event logging enabled: `{json.dumps(event)}`")
 
+    if not event["Records"]:
+        logging.warning("No SNS records in the event; nothing to send.")
+        return json.dumps({"code": 200, "info": "No records to process"})
+
     for record in event["Records"]:
         sns = record["Sns"]
         subject = sns["Subject"]
@@ -335,7 +344,7 @@ def lambda_handler(event: Dict[str, Any], context: Dict[str, Any]) -> str:
         )
         response = send_discord_notification(payload=payload)
 
-    if json.loads(response)["code"] != 200:
+    if json.loads(response)["code"] not in EXPECTED_RESPONSE_CODES:
         response_info = json.loads(response)["info"]
         logging.error(
             f"Error: received status `{response_info}` using event `{event}` and context `{context}`"
