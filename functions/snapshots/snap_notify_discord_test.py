@@ -10,7 +10,7 @@ snapshots = Snapshot()
 snapshots['test_event_get_discord_message_payload_snapshots event_cloudwatch_alarm.json'] = [
     {
         'avatar_url': 'https://i.imgur.com/eeYUFCO_d.webp',
-        'content': 'New AWS Notification',
+        'content': ':aws: New AWS Notification',
         'embeds': [
             {
                 'author': {
@@ -61,7 +61,7 @@ snapshots['test_event_get_discord_message_payload_snapshots event_cloudwatch_ala
 snapshots['test_event_get_discord_message_payload_snapshots event_guardduty_finding_high.json'] = [
     {
         'avatar_url': 'https://i.imgur.com/eeYUFCO_d.webp',
-        'content': 'New AWS Notification',
+        'content': ':aws: New AWS Notification',
         'embeds': [
             {
                 'author': {
@@ -122,7 +122,7 @@ snapshots['test_event_get_discord_message_payload_snapshots event_guardduty_find
 snapshots['test_event_get_discord_message_payload_snapshots event_guardduty_finding_medium.json'] = [
     {
         'avatar_url': 'https://i.imgur.com/eeYUFCO_d.webp',
-        'content': 'New AWS Notification',
+        'content': ':aws: New AWS Notification',
         'embeds': [
             {
                 'author': {
@@ -183,7 +183,7 @@ snapshots['test_event_get_discord_message_payload_snapshots event_guardduty_find
 snapshots['test_event_get_discord_message_payload_snapshots event_guardduty_finding_low.json'] = [
     {
         'avatar_url': 'https://i.imgur.com/eeYUFCO_d.webp',
-        'content': 'New AWS Notification',
+        'content': ':aws: New AWS Notification',
         'embeds': [
             {
                 'author': {
@@ -244,7 +244,7 @@ snapshots['test_event_get_discord_message_payload_snapshots event_guardduty_find
 snapshots['test_sns_get_discord_message_payload_snapshots message_cloudwatch_alarm.json'] = [
     {
         'avatar_url': 'https://i.imgur.com/eeYUFCO_d.webp',
-        'content': 'New AWS Notification',
+        'content': ':aws: New AWS Notification',
         'embeds': [
             {
                 'author': {
@@ -295,7 +295,7 @@ snapshots['test_sns_get_discord_message_payload_snapshots message_cloudwatch_ala
 snapshots['test_sns_get_discord_message_payload_snapshots message_dms_notification.json'] = [
     {
         'avatar_url': 'https://i.imgur.com/eeYUFCO_d.webp',
-        'content': 'New AWS Notification',
+        'content': ':aws: New AWS Notification',
         'embeds': [
             {
                 'author': {
@@ -346,7 +346,7 @@ snapshots['test_sns_get_discord_message_payload_snapshots message_dms_notificati
 snapshots['test_sns_get_discord_message_payload_snapshots message_glue_notification.json'] = [
     {
         'avatar_url': 'https://i.imgur.com/eeYUFCO_d.webp',
-        'content': 'New AWS Notification',
+        'content': ':aws: New AWS Notification',
         'embeds': [
             {
                 'author': {
@@ -412,7 +412,7 @@ snapshots['test_sns_get_discord_message_payload_snapshots message_glue_notificat
 snapshots['test_sns_get_discord_message_payload_snapshots message_guardduty_finding.json'] = [
     {
         'avatar_url': 'https://i.imgur.com/eeYUFCO_d.webp',
-        'content': 'New AWS Notification',
+        'content': ':aws: New AWS Notification',
         'embeds': [
             {
                 'author': {
@@ -473,7 +473,7 @@ snapshots['test_sns_get_discord_message_payload_snapshots message_guardduty_find
 snapshots['test_sns_get_discord_message_payload_snapshots message_text_message.json'] = [
     {
         'avatar_url': 'https://i.imgur.com/eeYUFCO_d.webp',
-        'content': 'New AWS Notification',
+        'content': ':aws: New AWS Notification',
         'embeds': [
             {
                 'author': {

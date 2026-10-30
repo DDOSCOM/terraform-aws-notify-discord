@@ -23,6 +23,7 @@ def test_sns_get_discord_message_payload_snapshots(snapshot, monkeypatch):
 
     monkeypatch.setenv("DISCORD_AVATAR_URL", "https://i.imgur.com/eeYUFCO_d.webp")
     monkeypatch.setenv("DISCORD_USERNAME", "main_test")
+    monkeypatch.setenv("DISCORD_EMOJI", ":aws:")
 
     # These are SNS messages that invoke the lambda handler; the event payload is in the
     # `message` field
@@ -59,6 +60,7 @@ def test_event_get_discord_message_payload_snapshots(snapshot, monkeypatch):
 
     monkeypatch.setenv("DISCORD_AVATAR_URL", "https://i.imgur.com/eeYUFCO_d.webp")
     monkeypatch.setenv("DISCORD_USERNAME", "main_test")
+    monkeypatch.setenv("DISCORD_EMOJI", ":aws:")
 
     # These are just the raw events that will be converted to JSON string and
     # sent via SNS message
@@ -85,6 +87,7 @@ def test_environment_variables_set(monkeypatch):
 
     monkeypatch.setenv("DISCORD_AVATAR_URL", "https://i.imgur.com/eeYUFCO_d.webp")
     monkeypatch.setenv("DISCORD_USERNAME", "main_test")
+    monkeypatch.setenv("DISCORD_EMOJI", ":aws:")
     monkeypatch.setenv(
         "DISCORD_WEBHOOK_URL", "https://discord.com/api/webhooks/HOOK_ID/HOOK_TOKEN"
     )
@@ -148,3 +151,22 @@ def test_get_service_url_exception():
     """
     with pytest.raises(KeyError):
         main.get_service_url(region="us-east-1", service="athena")
+
+
+def test_discord_emoji_is_prefixed_to_content(monkeypatch):
+    """
+    Should prefix the configured emoji to the message content.
+
+    Regression test for the `discord_emoji` module variable: it must reach the
+    Lambda (DISCORD_EMOJI environment variable) and appear in the body of the
+    Discord notification request.
+    """
+    monkeypatch.setenv("DISCORD_AVATAR_URL", "https://i.imgur.com/eeYUFCO_d.webp")
+    monkeypatch.setenv("DISCORD_USERNAME", "main_test")
+    monkeypatch.setenv("DISCORD_EMOJI", ":test_emoji:")
+
+    payload = main.get_discord_message_payload(
+        message="hello", region="us-east-1", subject="bar"
+    )
+
+    assert payload["content"] == ":test_emoji: New AWS Notification"
