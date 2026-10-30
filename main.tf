@@ -93,6 +93,7 @@ module "lambda" {
     DISCORD_WEBHOOK_URL = var.discord_webhook_url
     DISCORD_USERNAME    = var.discord_username
     DISCORD_AVATAR_URL  = var.discord_avatar_url
+    DISCORD_EMOJI       = var.discord_emoji
     LOG_EVENTS          = var.log_events ? "True" : "False"
   }
 

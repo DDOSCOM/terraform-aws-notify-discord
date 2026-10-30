@@ -55,7 +55,7 @@ variable "discord_avatar_url" {
 }
 
 variable "discord_emoji" {
-  description = "A custom emoji that will appear on discord messages"
+  description = "A custom emoji that will appear in the body of discord messages. Supports Unicode emoji and the discord custom emoji format <:name:id>"
   type        = string
   default     = ":aws:"
 }

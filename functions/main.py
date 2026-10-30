@@ -247,11 +247,16 @@ def get_discord_message_payload(
 
     discord_username = os.environ["DISCORD_USERNAME"]
     discord_avatar = os.environ["DISCORD_AVATAR_URL"]
+    discord_emoji = os.environ["DISCORD_EMOJI"]
+
+    content = "New AWS Notification"
+    if discord_emoji:
+        content = f"{discord_emoji} {content}"
 
     payload = {
         "username": discord_username,
         "avatar_url": discord_avatar,
-        "content": "New AWS Notification"
+        "content": content
     }
     embeds = None
 
