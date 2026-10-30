@@ -5,7 +5,7 @@ import os
 import urllib.parse
 import urllib.request
 from enum import Enum
-from typing import Any, Dict, Optional, Union, cast
+from typing import Any, Dict, Optional, Protocol, Union, cast, runtime_checkable
 from urllib.error import HTTPError
 
 import boto3
@@ -312,7 +312,57 @@ def send_discord_notification(payload: Dict[str, Any]) -> str:
         return json.dumps({"code": e.getcode(), "info": e.info().as_string()})
 
 
-def lambda_handler(event: Dict[str, Any], context: Dict[str, Any]) -> str:
+@runtime_checkable
+class CognitoIdentity(Protocol):
+    """Cognito identity of the caller, present when invoked from the mobile SDK."""
+
+    identity_id: str
+    identity_pool_id: str
+
+
+@runtime_checkable
+class ClientContextClient(Protocol):
+    """Details of the client that invoked the function."""
+
+    installation_id: str
+    app_title: str
+    app_version_name: str
+    app_version_code: str
+    app_package_name: str
+
+
+@runtime_checkable
+class ClientContext(Protocol):
+    """Client context of the caller, present when invoked from the mobile SDK."""
+
+    client: ClientContextClient
+    custom: Dict[str, str]
+    env: Dict[str, str]
+
+
+@runtime_checkable
+class LambdaContext(Protocol):
+    """Context object that AWS Lambda passes to the handler.
+
+    Mirrors the attributes documented for the Lambda runtime interface client:
+    https://docs.aws.amazon.com/lambda/latest/dg/python-context.html
+    """
+
+    function_name: str
+    function_version: str
+    invoked_function_arn: str
+    memory_limit_in_mb: str
+    aws_request_id: str
+    log_group_name: str
+    log_stream_name: str
+    identity: Optional[CognitoIdentity]
+    client_context: Optional[ClientContext]
+
+    def get_remaining_time_in_millis(self) -> int:
+        ...
+
+
+def lambda_handler(event: Dict[str, Any], context: LambdaContext) -> str:
     """
     Lambda function to parse notification events and forward to Discord
 
